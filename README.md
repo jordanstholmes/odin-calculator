@@ -1,12 +1,12 @@
 # odin-calculator
 
 ## Functional Requirements
-- [ ] functionality for basic math operators `add` `subtract` `multiply` `divide`
-  - [ ] add
-  - [ ] subtract
-  - [ ] multiply
-  - [ ] divide
-- [ ] `operate(operator, num1, num2)` function
+- [x] functionality for basic math operators `add` `subtract` `multiply` `divide`
+  - [x] add
+  - [x] subtract
+  - [x] multiply
+  - [x] divide
+- [x] `operate(operator, num1, num2)` function
 
 ## UI Requirements
 - [ ] Buttons

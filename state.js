@@ -16,10 +16,18 @@ const defaultState = {
 const state = {
   ...defaultState,
   setNum1(num) {
-    state.num1 = num;
+    if (state.num1 === null) {
+      state.num1 = num;
+    } else {
+      state.num1 = Number(state.num1.toString() + num.toString())
+    }
   },
   setNum2(num) {
-    state.num2 = num;
+    if (state.num2 === null) {
+      state.num2 = num;
+    } else {
+      state.num2 = Number(state.num2.toString() + num.toString())
+    }
   },
   setOperator(operator) {
     state.operator = operator;

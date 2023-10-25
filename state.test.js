@@ -26,5 +26,22 @@ describe('State', () => {
     expect(state.getNum1()).toBe(6);
     expect(state.getNum2()).toBe(null);
     expect(state.getOperator()).toBe(null);
+    state.reset();
+  });
+  test('Multiple digits for first number', () => {
+    state.setNum1(1);
+    expect(state.getNum1()).toBe(1);
+    state.setNum1(2);
+    expect(state.getNum1()).toBe(12);
+    state.setNum1(3);
+    expect(state.getNum1()).toBe(123);
+  });
+  test('Multiple digits for second number', () => {
+    state.setNum2(1);
+    expect(state.getNum2()).toBe(1);
+    state.setNum2(2);
+    expect(state.getNum2()).toBe(12);
+    state.setNum2(3);
+    expect(state.getNum2()).toBe(123);
   });
 });
