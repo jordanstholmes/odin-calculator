@@ -10,6 +10,9 @@ describe('Addition', () => {
   test('With a negative result', () => {
     expect(operate('+', -2, -4)).toBe(-6);
   });
+  test('With floating points', () => {
+    expect(operate('+', 1.234, 0.123)).toBe(1.357);
+  });
 });
 
 describe('Subtraction', () => {
@@ -21,6 +24,9 @@ describe('Subtraction', () => {
   });
   test('With a negative result', () => {
     expect(operate('-', -2, 4)).toBe(-6);
+  });
+  test('With floating points', () => {
+    expect(operate('-', 1.234, 0.123)).toBe(1.111);
   });
 });
 
@@ -34,6 +40,9 @@ describe('Multiplication', () => {
   test('Double negative', () => {
     expect(operate('*', -5, -6)).toBe(30);
   });
+  test('With floating points', () => {
+    expect(operate('*', 2.32, 3)).toBe(6.96);
+  });
 });
 
 describe('Division', () => {
@@ -45,6 +54,9 @@ describe('Division', () => {
   });
   test('Double negative', () => {
     expect(operate('/', -10, -2)).toBe(5);
+  });
+  test('With floating points', () => {
+    expect(operate('/', 6.96, 3)).toBe(2.32);
   });
   test('Divide zero', () => {
     expect(operate('/', 0, 6)).toBe(0);

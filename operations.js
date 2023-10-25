@@ -1,16 +1,24 @@
 function operate(operator, num1, num2) {
+  let res;
   if (operator === '+') {
-    return add(num1, num2);
+    res = add(num1, num2);
   }
   if (operator === '-') {
-    return subtract(num1, num2);
+    res = subtract(num1, num2);
   }
   if (operator === '*') {
-    return multiply(num1, num2);
+    res = multiply(num1, num2);
   }
   if (operator === '/') {
-    return divide(num1, num2);
+    res = divide(num1, num2);
   }
+  if (typeof res === 'string') return res;
+  return rounded(res, 10);
+}
+
+// https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
+function rounded(num, decimalPlaces) {
+  return Math.round((num + Number.EPSILON) * (10**decimalPlaces)) / (10**decimalPlaces);
 }
 
 function add(num1, num2) {
