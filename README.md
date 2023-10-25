@@ -9,11 +9,11 @@
 - [x] `operate(operator, num1, num2)` function
 
 ## UI Requirements
-- [ ] Buttons
-  - [ ] buttons for digits
-  - [ ] button for each operator above
-  - [ ] button for Equals key
-  - [ ] button for Clear
+- [x] Buttons
+  - [x] buttons for digits
+  - [x] button for each operator above
+  - [x] button for Equals key
+  - [x] button for Clear
 - [ ] Display first number operator second number
 - [ ] Display result
 
