@@ -40,4 +40,6 @@ function divide(num1, num2) {
   return num1 / num2;
 }
 
-module.exports = {operate};
+/******** Swap the line that is commented out below in order to test ********/
+window.operate = operate;
+// module.exports = operate;

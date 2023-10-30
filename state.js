@@ -1,4 +1,4 @@
-const {operate} = require('./operations');
+// const operate = require('./operations');
 const OPERATORS = new Set(['+', '-', '*', '/']);
 /*
 need to know:
@@ -61,5 +61,10 @@ function isOperator(char) {
   return OPERATORS.has(char);
 }
 
-module.exports = state;
+/******** Uncomment module.exports for testing ********/
+/*
+Also uncomment the require(./operations) at top of the file for testing
+*/
+window.state = state;
+// module.exports = state;
 
