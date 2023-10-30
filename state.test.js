@@ -1,47 +1,109 @@
 const state = require('./state');
 
 describe('State', () => {
-  test('Default state', () => {
-    expect(state.getNum1()).toBe(null);
-    expect(state.getNum2()).toBe(null);
-    expect(state.getOperator()).toBe(null);
-  });
   test('Reset', () => {
-    state.setNum1(2);
-    state.setNum2(4);
-    state.setOperator('+');
-    expect(state.getNum1()).toBe(2);
-    expect(state.getNum2()).toBe(4);
-    expect(state.getOperator()).toBe('+');
+    const emptyState = {
+      userInput: '',
+      num1: null,
+      operator: null,
+      num2: null,
+    };
+    expect(state.getState()).toEqual(emptyState);
+    state.num1 = 2;
+    state.num2 = 4;
+    state.operator = '+';
+    state.userInput = '23'
+    const expected = {
+      userInput: '23',
+      num1: 2,
+      operator: '+',
+      num2: 4,
+    };
+    expect(state.getState()).toEqual(expected);
     state.reset();
-    expect(state.getNum1()).toBe(null);
-    expect(state.getNum2()).toBe(null);
-    expect(state.getOperator()).toBe(null);
+    expect(state.getState()).toEqual(emptyState);
   });
-  test('Evaluate', () => {
-    state.setNum1(2);
-    state.setNum2(4);
-    state.setOperator('+');
-    state.evaluate();
-    expect(state.getNum1()).toBe(6);
-    expect(state.getNum2()).toBe(null);
-    expect(state.getOperator()).toBe(null);
-    state.reset();
-  });
-  test('Multiple digits for first number', () => {
-    state.setNum1(1);
-    expect(state.getNum1()).toBe(1);
-    state.setNum1(2);
-    expect(state.getNum1()).toBe(12);
-    state.setNum1(3);
-    expect(state.getNum1()).toBe(123);
-  });
-  test('Multiple digits for second number', () => {
-    state.setNum2(1);
-    expect(state.getNum2()).toBe(1);
-    state.setNum2(2);
-    expect(state.getNum2()).toBe(12);
-    state.setNum2(3);
-    expect(state.getNum2()).toBe(123);
+  describe('userInput', () => {
+    test('Should add digits to User Input', () => {
+      state.reset();
+      state.addUserInput('2');
+      expect(state.userInput).toBe('2');
+      state.addUserInput('3');
+      expect(state.userInput).toBe('23');
+    });
+    test('Should not allow operators before inputing a number', () => {
+      state.reset();
+      state.addUserInput('+');
+      state.addUserInput('*');
+      state.addUserInput('/');
+      // the minus sign is allowed for inputting negative numbers
+      expect(state.userInput).toBe('');
+    });
+    test('Should set num1 on operator input', () => {
+      ['+', '*', '-', '/'].forEach((operator) => {
+        state.reset();
+        state.addUserInput('2');
+        state.addUserInput('3');
+        state.addUserInput(operator);
+        expect(state.num1).toBe(23);
+        expect(state.operator).toBe(operator);
+        expect(state.userInput).toBe('');
+      });
+    });
+    test('Should allow negative numbers', () => {
+      state.reset();
+      state.addUserInput('-');
+      state.addUserInput('2');
+      state.addUserInput('3');
+      state.addUserInput('+');
+      expect(state.num1).toBe(-23);
+    });
+    test('Should evaluate equation on input "="', () => {
+      state.reset();
+      state.setState({num1: 23, operator: '+', num2: null, userInput: '20'});
+      state.addUserInput('=');
+      expect(state.getState()).toEqual({num1: 43, operator: null, num2: null, userInput: ''});
+    });
+    test('Should not allow "=" without 2 numbers and an operator', () => {
+      state.reset();
+      state.setState({num1: null, operator: null, num2: null});
+      state.addUserInput('=');
+      expect(state.userInput).toBe('');
+
+      state.reset();
+      state.setState({num1: 23, operator: null, num2: null});
+      state.addUserInput('=');
+      expect(state.userInput).toBe('');
+
+      state.reset();
+      state.setState({num1: 23, operator: '+', num2: null});
+      state.addUserInput('=');
+      expect(state.userInput).toBe('');
+    });
+    test('Should allow inputting decimal numbers', () => {
+      state.reset();
+      state.addUserInput('.');
+      expect(state.userInput).toBe('0.'); // parseFloat('.') will throw an error
+      state.addUserInput('1');
+      expect(state.userInput).toBe('0.1');
+      state.addUserInput('*');
+      expect(state.num1).toBe(0.1);
+
+      state.reset();
+      state.addUserInput('2');
+      state.addUserInput('.');
+      state.addUserInput('3');
+      expect(state.userInput).toBe('2.3');
+      state.addUserInput('/');
+      expect(state.num1).toBe(2.3);
+    });
+    test('Should not allow more than one period in a number', () => {
+      state.reset();
+      state.addUserInput('2');
+      state.addUserInput('.');
+      state.addUserInput('3');
+      state.addUserInput('.');
+      expect(state.userInput).toBe('2.3');
+    });
   });
 });

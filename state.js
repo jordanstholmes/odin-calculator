@@ -1,13 +1,14 @@
 const {operate} = require('./operations');
+const OPERATORS = new Set(['+', '-', '*', '/']);
 /*
 need to know:
 - num1: null | number | 'ERROR_DIVIDE_BY_ZERO'
 - operator: null | '+' | '-' | '*' | '/'
 - num 2: null | number
-
 */
 
 const defaultState = {
+  userInput: '',
   num1: null,
   operator: null,
   num2: null,
@@ -15,41 +16,50 @@ const defaultState = {
 
 const state = {
   ...defaultState,
-  setNum1(num) {
-    if (state.num1 === null) {
-      state.num1 = num;
-    } else {
-      state.num1 = Number(state.num1.toString() + num.toString())
+  addUserInput(char) {
+    if (isDigit(char)) {
+      state.userInput += char;
+    } else if (char === '-' && state.userInput === '') {
+      state.userInput += '-';
+    } else if (isOperator(char)) {
+      state.num1 = parseFloat(state.userInput);
+      state.operator = char;
+      state.userInput = '';
+    } else if (char === '=') {
+      state.num2 = parseFloat(state.userInput);
+      state.evaluate();
+    } else if (char === '.' && !state.userInput.includes('.')) {
+      state.userInput += state.userInput === '' ? '0.' : '.';
     }
   },
-  setNum2(num) {
-    if (state.num2 === null) {
-      state.num2 = num;
-    } else {
-      state.num2 = Number(state.num2.toString() + num.toString())
-    }
+  getState() {
+    return {
+      userInput: state.userInput,
+      num1: state.num1,
+      num2: state.num2,
+      operator: state.operator,
+    };
   },
-  setOperator(operator) {
-    state.operator = operator;
-  },
-  getNum1() {
-    return state.num1;
-  },
-  getNum2() {
-    return state.num2;
-  },
-  getOperator() {
-    return state.operator;
+  setState(values) {
+    Object.assign(state, values);
   },
   evaluate() {
     const res = operate(state.operator, state.num1, state.num2);
-    Object.assign(state, defaultState);
-    state.setNum1(res);
+    state.reset();
+    state.num1 = res;
   },
   reset() {
     Object.assign(state, defaultState);
   }
 };
+
+function isDigit(char) {
+  return char.charCodeAt(0) >= 48 && char.charCodeAt(0) <= 57;
+}
+
+function isOperator(char) {
+  return OPERATORS.has(char);
+}
 
 module.exports = state;
 
