@@ -22,7 +22,9 @@ const state = {
     } else if (char === '-' && state.userInput === '') {
       state.userInput += '-';
     } else if (isOperator(char)) {
-      state.num1 = parseFloat(state.userInput);
+      if (state.num1 === null) {
+        state.num1 = parseFloat(state.userInput);
+      }
       state.operator = char;
       state.userInput = '';
     } else if (char === '=') {
