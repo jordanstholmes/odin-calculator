@@ -15,7 +15,7 @@ function renderNumberButtons() {
 
 function renderOperationButtons() {
   const container = document.querySelector('.operation-btns');
-  ['+', '-', '*', '/', '=', 'Clear'].forEach((input) => {
+  ['+', '-', '*', '/', '.', '=', 'Clear'].forEach((input) => {
     const btn = document.createElement('button');
     btn.onclick = () => onInputClick(input);
     btn.textContent = input;
