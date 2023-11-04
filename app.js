@@ -1,6 +1,5 @@
 function onInputClick(char) {
   state.addUserInput(char);
-  console.log(state)
   renderDisplay();
 }
 

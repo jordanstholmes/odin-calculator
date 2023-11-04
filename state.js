@@ -17,6 +17,10 @@ const defaultState = {
 const state = {
   ...defaultState,
   addUserInput(char) {
+    if (char === 'Clear') {
+      return state.reset();
+    }
+
     if (isDigit(char)) {
       state.userInput += char;
     } else if (char === '-' && state.userInput === '') {
