@@ -1,6 +1,7 @@
 function onInputClick(char) {
   state.addUserInput(char);
   console.log(state)
+  renderDisplay();
 }
 
 function renderNumberButtons() {
@@ -21,6 +22,28 @@ function renderOperationButtons() {
     btn.textContent = input;
     container.appendChild(btn);
   });
+}
+
+function renderDisplay() {
+  const container = document.querySelector('.equation-display');
+
+  let num1 = '';
+  if (state.num1 !== null) {
+    num1 = state.num1;
+  } else {
+    num1 = state.userInput;
+  }
+
+  let num2 = '';
+  if (state.operator) {
+    num2 = state.userInput;
+  }
+
+  let operator = '';
+  if (state.operator) {
+    operator = state.operator;
+  }
+  container.textContent = `${num1} ${operator} ${num2}`;
 }
 
 renderNumberButtons();
